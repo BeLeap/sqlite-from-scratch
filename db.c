@@ -368,7 +368,7 @@ Cursor* leaf_node_find(Table* table, uint32_t page_num, uint32_t key) {
     if (key < key_at_index) {
       one_past_max_index = index;
     } else {
-      min_index = index;
+      min_index = index + 1;
     }
   }
 
