@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,6 +51,14 @@ typedef enum {
   PREPARE_SUCCESS,
   PREPARE_UNRECOGNIZED_STATEMENT,
 } PrepareResult;
+
+MetaCommandResult do_meta_command(InputBuffer* input_buffer) {
+  if (strcmp(input_buffer->buffer, ".exit") == 0) {
+    exit(EXIT_SUCCESS);
+  } else {
+    return META_COMMAND_UNRECOGNIZED_COMMAND;
+  }
+}
 
 int main(int argc, char* argv[]) {
   InputBuffer* input_buffer = new_input_buffer();
