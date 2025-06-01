@@ -3,8 +3,8 @@
 CC = clang
 RM = rm -f
 
-db: main.c
-	$(CC) -o db main.c
+db: db.c
+	$(CC) -o db db.c
 
 clean:
 	$(RM) db
