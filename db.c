@@ -374,6 +374,8 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
   }
 }
 
+typedef enum { NODE_INTERNAL, NODE_LEAF } NodeType;
+
 int main(int argc, char* argv[]) {
   if (argc < 2) {
     printf("Must supply a database filename.\n");
