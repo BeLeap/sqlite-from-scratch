@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 describe 'database' do
+  before do
+    `rm -rf /tmp/test.db`
+  end
+
   def run_script(commands)
     raw_output = nil
-    IO.popen('./db', 'r+') do |pipe|
+    IO.popen('./db /tmp/test.db', 'r+') do |pipe|
       commands.each do |command|
         pipe.puts command
       end
