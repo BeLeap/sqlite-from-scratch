@@ -441,7 +441,7 @@ void leaf_node_split_and_insert(Cursor* cursor, uint32_t key, Row* value) {
       destination_node = old_node;
     }
     uint32_t index_within_node = i % LEAF_NODE_LEFT_SPLIT_COUNT;
-    void* destination = leaf_node_cell(destination, index_within_node);
+    void* destination = leaf_node_cell(destination_node, index_within_node);
 
     if (i == cursor->cell_num) {
       serialize_row(value, destination);
