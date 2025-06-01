@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -16,6 +17,10 @@ InputBuffer* new_input_buffer() {
   input_buffer->input_length = 0;
 
   return input_buffer;
+}
+
+void print_prompt() {
+  printf("db > ");
 }
 
 int main(int argc, char* argv[]) {
