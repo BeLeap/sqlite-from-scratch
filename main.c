@@ -102,17 +102,6 @@ PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement)
   return PREPARE_UNRECOGNIZED_STATEMENT;
 }
 
-void execute_statement(Statement* statement) {
-  switch (statement->type) {
-    case (STATEMENT_INSERT):
-      printf("This is where we would do an insert.\n");
-      break;
-    case STATEMENT_SELECT:
-      printf("This is where we would do a select.\n");
-      break;
-  }
-}
-
 #define size_of_attribute(Struct, Attribute) sizeof(((Struct*)0)->Attribute)
 
 const uint32_t ID_SIZE = size_of_attribute(Row, id);
@@ -155,6 +144,17 @@ void* row_slot(Table* table, uint32_t row_num) {
   uint32_t row_offset = row_num % ROWS_PER_PAGE;
   uint32_t byte_offset = row_offset * ROW_SIZE;
   return page + byte_offset;
+}
+
+void execute_statement(Statement* statement) {
+  switch (statement->type) {
+    case (STATEMENT_INSERT):
+      printf("This is where we would do an insert.\n");
+      break;
+    case STATEMENT_SELECT:
+      printf("This is where we would do a select.\n");
+      break;
+  }
 }
 
 int main(int argc, char* argv[]) {
