@@ -275,11 +275,11 @@ const uint32_t PARENT_POINTER_SIZE = sizeof(uint32_t);
 const uint32_t PARENT_POINTER_OFFSET = IS_ROOT_OFFSET + IS_ROOT_SIZE;
 const uint32_t COMMON_NODE_HEADER_SIZE = NODE_TYPE_SIZE + IS_ROOT_SIZE + PARENT_POINTER_SIZE;
 
-bool is_root_node(void* node) {
+bool is_node_root(void* node) {
   uint8_t value = *((uint8_t*)(node + IS_ROOT_OFFSET));
   return (bool)value;
 }
-void set_root_node(void* node, bool is_root) {
+void set_node_root(void* node, bool is_root) {
   uint8_t value = is_root;
   *((uint8_t*)(node + IS_ROOT_OFFSET)) = value;
 }
@@ -329,6 +329,7 @@ void* leaf_node_value(void* node, uint32_t cell_num) {
 }
 void initialize_leaf_node(void* node) {
   set_node_type(node, NODE_LEAF);
+  set_node_root(node, false);
   *leaf_node_num_cells(node) = 0;
 }
 
@@ -370,6 +371,12 @@ uint32_t* internal_node_child(void* node, uint32_t child_num) {
 }
 uint32_t* internal_node_key(void* node, uint32_t key_num) {
   return internal_node_cell(node, key_num) + INTERNAL_NODE_CHILD_SIZE;
+}
+
+void initialize_internal_node(void* node) {
+  set_node_type(node, NODE_INTERNAL);
+  set_node_root(node, false);
+  *internal_node_num_keys(node) = 0;
 }
 
 uint32_t get_node_max_key(void* node) {
@@ -607,6 +614,7 @@ Table* db_open(const char* filename) {
     // New database file. Initialize page 0 as leaf node.
     void* root_node = get_page(pager, 0);
     initialize_leaf_node(root_node);
+    set_node_root(root_node, true);
   }
   
   return table;
