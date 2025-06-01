@@ -69,6 +69,10 @@ typedef struct {
   char email[COLUMN_EMAIL_SIZE];
 } Row;
 
+void print_row(Row* row) {
+  printf("(%d, %s, %s)\n", row->id, row->username, row->email);
+}
+
 typedef enum {
   STATEMENT_INSERT,
   STATEMENT_SELECT,
