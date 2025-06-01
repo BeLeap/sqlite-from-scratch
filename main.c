@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,6 +60,14 @@ MetaCommandResult do_meta_command(InputBuffer* input_buffer) {
   }
 }
 
+#define COLUMN_USERNAME_SIZE 32
+#define COLUMN_EMAIL_SIZE 255
+typedef struct {
+  uint32_t id;
+  char username[COLUMN_USERNAME_SIZE];
+  char email[COLUMN_EMAIL_SIZE];
+} Row;
+
 typedef enum {
   STATEMENT_INSERT,
   STATEMENT_SELECT,
@@ -66,6 +75,7 @@ typedef enum {
 
 typedef struct {
   StatementType type;
+  Row row_to_insert; // only used by insert statement
 } Statement;
 
 PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement) {
