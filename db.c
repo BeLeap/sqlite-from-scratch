@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdbool.h>
 #include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 typedef struct {
   char* buffer;
@@ -159,6 +161,26 @@ typedef struct {
   uint32_t file_length;
   void* pages[TABLE_MAX_PAGES];
 } Pager;
+
+Pager* pager_open(const char* filename) {
+  int fd = open(filename, O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
+  if (fd == -1) {
+    printf("Unable to open file\n");
+    exit(EXIT_FAILURE);
+  }
+
+  off_t file_length = lseek(fd, 0, SEEK_END);
+
+  Pager* pager = (Pager*)malloc(sizeof(Pager));
+  pager->file_descriptor = fd;
+  pager->file_length = file_length;
+
+  for (uint32_t i = 0; i < TABLE_MAX_PAGES; i++) {
+    pager->pages[i] = NULL;
+  }
+
+  return pager;
+}
 
 typedef struct {
   uint32_t num_rows;
