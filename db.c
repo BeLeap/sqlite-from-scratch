@@ -175,7 +175,7 @@ Pager* pager_open(const char* filename) {
   return pager;
 }
 
-void pager_flush(Pager* pager, uint32_t page_num, uint32_t size) {
+void pager_flush(Pager* pager, uint32_t page_num) {
   if (pager->pages[page_num] == NULL) {
     printf("Tried to flush null page.\n");
     exit(EXIT_FAILURE);
@@ -188,7 +188,7 @@ void pager_flush(Pager* pager, uint32_t page_num, uint32_t size) {
     exit(EXIT_FAILURE);
   }
 
-  ssize_t bytes_written = write(pager->file_descriptor, pager->pages[page_num], size);
+  ssize_t bytes_written = write(pager->file_descriptor, pager->pages[page_num], PAGE_SIZE);
 
   if (bytes_written == -1) {
     printf("Error writing: %d\n", errno);
@@ -251,7 +251,7 @@ void db_close(Table* table) {
     if (pager->pages[i] == NULL) {
       continue;
     }
-    pager_flush(pager, i, PAGE_SIZE);
+    pager_flush(pager, i);
     free(pager->pages[i]);
     pager->pages[i] = NULL;
   }
@@ -262,7 +262,7 @@ void db_close(Table* table) {
   if (num_additional_rows > 0) {
     uint32_t page_num = num_full_pages;
     if (pager->pages[page_num] != NULL) {
-      pager_flush(pager, page_num, num_additional_rows * ROW_SIZE);
+      pager_flush(pager, page_num);
       free(pager->pages[page_num]);
       pager->pages[page_num] = NULL;
     }
