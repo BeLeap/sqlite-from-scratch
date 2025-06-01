@@ -60,6 +60,15 @@ MetaCommandResult do_meta_command(InputBuffer* input_buffer) {
   }
 }
 
+typedef enum {
+  STATEMENT_INSERT,
+  STATEMENT_SELECT,
+} StatementType;
+
+typedef struct {
+  StatementType type;
+} Statement;
+
 int main(int argc, char* argv[]) {
   InputBuffer* input_buffer = new_input_buffer();
   while (true) {
