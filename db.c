@@ -685,7 +685,7 @@ void print_tree(Pager* pager, uint32_t page_num, uint32_t indentation_level) {
         child = *internal_node_child(node, i);
         print_tree(pager, child, indentation_level + 1);
 
-        indent(indentation_level);
+        indent(indentation_level + 1);
         printf("- key %d\n", *internal_node_key(node, i));
       }
       child = *internal_node_right_child(node);
