@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
     switch (prepare_statement(input_buffer, &statement)) {
       case (PREPARE_SUCCESS):
         break;
-      case (PREPARE_UNRECOGNIZED_STATEMENT);
+      case (PREPARE_UNRECOGNIZED_STATEMENT):
         printf("Unrecognized keyword at start of '%s'.\n", input_buffer->buffer);
         continue;
     }
